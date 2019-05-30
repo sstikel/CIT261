@@ -1,14 +1,16 @@
 ////////////////////////////////INITIAL VALUES///////////////////////////////////
-let gridSquareCount = 100; 
-let mineCount = 10;
+let fieldSizeFactor = 10;
+let fieldSize = Math.pow(fieldSizeFactor); 
+let mineCount = fieldSizeFactor;
 let mineLocation = [];
+let allLocations = [fieldSize];
 
 ////////////////////////////////MINES////////////////////////////////////////////
 /*
 * Mine Count
 */
 function calcMineCount() {
-  mineCount = gridSquareCount / 10;
+  mineCount = fieldSizeFactor;
 }
 
 /*
@@ -18,19 +20,96 @@ function calcMineCount() {
 function setMineLocation(){
    //randomize mine location
    for (var i = 0; i < mineCount; i++){
-    let num = Math.floor(Math.random() * gridSquareCount);
-    mineLocation.forEach(function(item){
-      //check for duplicates location
-      if(item == num){
-        i--; //do extra loop
-        continue; //break out of for loop -- TODO - does not work here
+    let num = Math.floor(Math.random() * fieldSize);
+    for(var j = 0; j < mineLocation.length; j++) {
+      if (mineLocation[j] == num){
+        i--;
+        break;
       }
-    });
+    }
     mineLocation.push(num);
+    console.log(mineLocation[i]);
+    allLocations[num] = "mine";
   }
 }
 
-/////////////////////////////////NUMBERS//////////////////////////////////////
+/////////////////////////////////NUMBERS AROUND MINES/////////////////////////
+/**
+ * Set numbers
+ */
+mineLocation.foreach(function(mine){
+  let top = mine.value - fieldSizeFactor;
+  let bottom = mine.value + fieldSizeFactor;
+
+  //above -- Is there a line above?
+  if(!(top < 0)){
+    //left   -- End of row?
+    if ((top - 1) % fieldSizeFactor >= 0){
+      if (allLocations[top-1] == ""){
+        allLocations[top-1] = 1;
+      }
+      else
+        allLocations[top-1]++;
+    }
+    //center -- mine - 10
+    if (allLocations[top] == ""){
+      allLocations[top] = 1;
+    }
+    else
+      allLocations[top]++;
+    //right  -- End of row?
+    if ((top + 1) % fieldSizeFactor <= fieldSizeFactor - 1){
+      if (allLocations[top+1] == ""){
+        allLocations[top+1] = 1;
+      }
+      else
+        allLocations[top+1]++;
+    }
+  }
+  
+  //beside
+    if ((mine.value - 1) % fieldSizeFactor >= 0){
+      if (allLocations[mine.value-1] == ""){
+        allLocations[mine.value-1] = 1;
+      }
+      else
+        allLocations[mine.value-1]++;
+    }
+    //right  -- End of row?
+    if ((mine.value + 1) % fieldSizeFactor <= fieldSizeFactor - 1){
+      if (allLocations[mine.value+1] == ""){
+        allLocations[mine.value+1] = 1;
+      }
+      else
+        allLocations[mine.value+1]++;
+    }
+  
+  //below -- Is there a line below?
+  if(!(bottom > fieldSize)){
+    //left   -- End of row?
+    if ((bottom - 1) % fieldSizeFactor >= 0){
+      if (allLocations[bottom-1] == ""){
+        allLocations[bottom-1] = 1;
+      }
+      else
+        allLocations[bottom-1]++;
+    }
+    //center --
+    if (allLocations[bottom] == ""){
+      allLocations[bottom] = 1;
+    }
+    else
+      allLocations[bottom]++;
+    //right  -- End of row?
+    if ((bottom + 1) % fieldSizeFactor <= fieldSizeFactor - 1){
+      if (allLocations[bottom+1] == ""){
+        allLocations[bottom+1] = 1;
+      }
+      else
+        allLocations[bottom+1]++;
+    }
+  }
+});
 
 
 /////////////////////////////////FLAGS//////////////////////////////////////// do later
@@ -66,7 +145,7 @@ createCounterBox(headingBar);
 function createGame(){
   let mineField = document.getElementsByClassName("minefield"); 
  
-  for (var i = 0; i < gridSquareCount; i++) {
+  for (var i = 0; i < fieldSize; i++) {
     //insert minefield squares
     mineField.innerHTML += `<div id='${i}'></div>`;//"<div id=" + i + "></div>";
   }
