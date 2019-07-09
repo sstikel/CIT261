@@ -1,0 +1,95 @@
+
+body{
+  margin: 20px;
+}
+
+//////game board///////////
+.gameBoard {
+  width: 100%;
+  height: 40vh;
+  border:1px solid;
+  display: grid;
+  grid-gap: 1px;
+  //grid-template-columns: 2;
+  grid-template-rows: 5%, 95%;
+  // grid-template-areas: "red . blue ."
+  //                       ". . blue ."
+  //                       "yellow yellow . green";
+  // justify-items: center;
+  // align-items: center;
+  
+}
+
+.headingBar{
+  display: grid;
+  grid-template-columns: 3;
+  
+}
+
+.mineField{
+  // width: 100%;
+  // height: 40%;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+}
+
+///////board tiles//////
+.tiles{
+  display: grid;
+  background-color: gray;
+  width: 100%;
+  height: 100%;
+  border:1px solid;
+
+  &_empty{
+    
+  }
+
+  &_empty-clicked{
+    background-color: lightgray;
+  }
+
+  &_mine{
+
+  }
+
+  &_mine--clicked{
+    background-color: red;
+  }
+
+  &_mine--show{
+    background-color: lightgray;
+  }
+
+  &_flag{
+    
+  }
+
+  &_number{
+    background-color: lightgray;
+  }    
+}
+
+.number{
+  &--1{
+
+  }
+
+  &--2{
+
+  }
+
+  &--3{
+
+  }
+
+  &--4{
+
+  }
+
+  &--5+{
+    
+  }
+
+}

@@ -1,6 +1,6 @@
 ////////////////////////////////INITIAL VALUES///////////////////////////////////
 let fieldSizeFactor = 10;
-let fieldSize = Math.pow(fieldSizeFactor); 
+let fieldSize = fieldSizeFactor * fieldSizeFactor; 
 let mineCount = fieldSizeFactor;
 let mineLocation = [];
 let allLocations = [fieldSize];
@@ -11,6 +11,7 @@ let allLocations = [fieldSize];
 */
 function calcMineCount() {
   mineCount = fieldSizeFactor;
+  console.log("Mines = " + mineCount);
 }
 
 /*
@@ -29,14 +30,18 @@ function setMineLocation(){
     }
     mineLocation.push(num);
     console.log(mineLocation[i]);
-    allLocations[num] = "mine";
+    allLocations[num] = "m";
   }
+  console.log("allLocations[]: ");
+  console.log(allLocations);
 }
 
 /////////////////////////////////NUMBERS AROUND MINES/////////////////////////
 /**
  * Set numbers
  */
+/*
+function setNumbers(){
 mineLocation.foreach(function(mine){
   let top = mine.value - fieldSizeFactor;
   let bottom = mine.value + fieldSizeFactor;
@@ -110,7 +115,17 @@ mineLocation.foreach(function(mine){
     }
   }
 });
+}
+*/
 
+/////////////////////////////////Empty Spaces/////////////////////////////////
+function setEmptyTiles(){
+  allLocations.forEach(element => {
+    if('m'!=element || '1'!=element || '2'!=element || '3'!=element || '4'!=element || '5'!=element || '6'!=element || '7'!=element || '8'!=element){
+      element = ' '
+    }
+  });
+}
 
 /////////////////////////////////FLAGS//////////////////////////////////////// do later
 
@@ -123,6 +138,8 @@ function resetBoard(){}
 
 ////////////////////////////////TIMER///////////////////////////////////////// do later
 function createTimerBox(headingBar){}//handle with CSS??
+
+//start timer on board click
 
 function incTimer(){} //timer increases ever second
 
@@ -142,13 +159,54 @@ createSmileyButton(headingBar);
 createCounterBox(headingBar);
 
 //build grid
-function createGame(){
-  let mineField = document.getElementsByClassName("minefield"); 
- 
+function buildMineField(){
+  let mineField = document.getElementById("mineField"); 
+ //set mines
+ setMineLocation();
+ //set numbers
+ //setNumbers();  //TODO
+ //set empty tiles
+ setEmptyTiles();
+
+ //build divs
   for (var i = 0; i < fieldSize; i++) {
-    //insert minefield squares
-    mineField.innerHTML += `<div id='${i}'></div>`;//"<div id=" + i + "></div>";
+    let currentLocation = allLocations[i];
+    let type = "";
+    //check tile content
+    if('m' == currentLocation){
+      type = "tiles_mine";
+    }
+    else if('1' == currentLocation){
+      type = "tiles_number number--1";
+    }
+    else if('2' == currentLocation){
+      type = "tiles_number number--2";
+    }
+    else if('3' == currentLocation){
+      type = "tiles_number number--3";
+    }
+    else if('4' == currentLocation){
+      type = "tiles_number number--4";
+    }
+    else if('5' == currentLocation){
+      type = "tiles_number number--5";
+    }
+    else if('6' == currentLocation){
+      type = "tiles_number number--6";
+    }
+    else if('7' == currentLocation){
+      type = "tiles_number number--7";
+    }
+    else if('8' == currentLocation){
+      type = "tiles_number number--8";
+    }
+    else {
+      type = "tiles_empty"
+    }
+    //insert minefield tiles
+    mineField.innerHTML += `<div class="tiles ${type}" id='${i}' hidden>${i} ${currentLocation}</div>`;//"<div id=" + i + "></div>";
   }
+
 }
 
 ////////////////////////////////GAME PLAY///////////////////////////////////

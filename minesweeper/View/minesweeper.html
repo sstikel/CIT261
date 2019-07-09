@@ -6,16 +6,21 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Minesweeper - Sam Gay</title>
   <link rel="icon" type="image/gif/png" href="sicon.png">
-  <!-- <link href=""> add stylesheet source -->
+  <link href="./minesweeper.css" rel="stylesheet">
   <script src="../Controller/minesweeperJS.js"></script>
 </head>
-<body>
-  <div class="headingBar">
-    <div class="timerBox"></div>
-    <div class="buttonSmiley"></div>
-    <div class="mineCountBox"></div>
-  </div>
-
-  <div class="mineField"></div>
+<body onload="buildMineField()">
+  <h1>Minesweeper</h1>
+  <div class="gameBoard">
+    <div class="headingBar">
+      <div class="timerBox"></div>
+      <div class="buttonSmiley"></div>
+      <div class="mineCountBox"></div>
+    </div> <!--end headingBar-->
+    <div id="mineField" class="mineField">
+      <!-- divs here created dynamicaly -->
+    </div><!-- end tiles -->
+  </div><!-- end gameBoard -->
+  
 </body>
 </html>
