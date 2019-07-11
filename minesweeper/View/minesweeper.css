@@ -32,11 +32,17 @@ body {
 .tiles_empty-clicked {
   background-color: lightgray;
 }
+.tiles_mine {
+  background-color: red;
+}
 .tiles_mine--clicked {
   background-color: red;
 }
 .tiles_mine--show {
   background-color: lightgray;
+}
+.tiles_flag {
+  background-color: blue;
 }
 .tiles_number {
   background-color: lightgray;
