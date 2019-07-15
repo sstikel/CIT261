@@ -235,43 +235,50 @@ function buildMineField(){
   for (var i = 0; i < fieldSize; i++) {
     let currentLocation = allLocations[i];
     let type = "";
+    let content = "";
     //check tile content
     if(currentLocation >= 1000){
-      type = "tiles_mine";
+      type = "tiles tiles_mine";
+      content = "<img src='https://github.com/sstikel/CIT261/blob/master/minesweeper/img/Mine.png?raw=true' alt='mine'/>";
     }
     else if(1 == currentLocation){
-      type = "tiles_number number--1";
+      type = "tiles tiles_number number number--1";
     }
     else if(2 == currentLocation){
-      type = "tiles_number number--2";
+      type = "tiles tiles_number number number--2";
     }
     else if(3 == currentLocation){
-      type = "tiles_number number--3";
+      type = "tiles tiles_number number number--3";
     }
     else if(4 == currentLocation){
-      type = "tiles_number number--4";
+      type = "tiles tiles_number number number--4";
     }
     else if(5 == currentLocation){
-      type = "tiles_number number--5";
+      type = "tiles tiles_number number number--5";
     }
     else if(6 == currentLocation){
-      type = "tiles_number number--6";
+      type = "tiles tiles_number number number--6";
     }
     else if(7 == currentLocation){
-      type = "tiles_number number--7";
+      type = "tiles tiles_number number number--7";
     }
     else if(8 == currentLocation){
-      type = "tiles_number number--8";
+      type = "tiles tiles_number number number--8";
     }
     else {
-      type = "tiles_empty"
+      type = "tiles tiles_empty"
     }
     //insert minefield tiles
-    mineField.innerHTML += `<div class="tiles ${type}" id='${i}' hidden>${i} ${currentLocation}</div>`;//"<div id=" + i + "></div>";
+    mineField.innerHTML += `<div class="tiles ${type}" id='${i}' hidden>${currentLocation} ${content}</div>`;//"<div id=" + i + "></div>";
   }
 
 }
 
+
+//erase numbers from screen//
+function eraseOnScreenNumbers(){
+  document.getElementsByClassName("tiles").innerHTML = '';
+}
 ////////////////////////////////GAME PLAY///////////////////////////////////
 
 
