@@ -33,7 +33,7 @@ body {
   background-color: lightgray;
 }
 .tiles_mine {
-  background-color: red;
+  background-color: hotpink;
 }
 .tiles_mine--clicked {
   background-color: red;
@@ -42,10 +42,29 @@ body {
   background-color: lightgray;
 }
 .tiles_flag {
-  background-color: blue;
+  background-color: lightgray;
 }
 .tiles_number {
   background-color: lightgray;
+}
+
+.number {
+  font-weight: bold;
+}
+.number--1 {
+  color: blue;
+}
+.number--2 {
+  color: green;
+}
+.number--3 {
+  color: red;
+}
+.number--4 {
+  color: darkblue;
+}
+.number--5 + {
+  color: darkred;
 }
 
 /*# sourceMappingURL=minesweeper.css.map */

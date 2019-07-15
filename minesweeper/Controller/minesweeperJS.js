@@ -23,11 +23,10 @@
 
  /**
   * Notes of code:
-  * - 1000 => mine
-  * - 999 => flag
+  * - 1000+ => mine
+  * - 123 => flag
   * - 0 => empty
-  * - 1 => one mine touching
-  * - 2-8 => two to eight mines touching
+  * - 1-8 => one to eight mines touching
   * 
   * Fixes to make:
   * - 'setNumbers' is incrementing the mine numbers
