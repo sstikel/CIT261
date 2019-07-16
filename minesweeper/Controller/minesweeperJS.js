@@ -40,6 +40,7 @@ let fieldSizeFactor = 10;
 let fieldSize = fieldSizeFactor * fieldSizeFactor; 
 let mineCount = fieldSizeFactor;
 let mineLocation = [];
+let mineImage = 'https://github.com/sstikel/CIT261/blob/master/minesweeper/img/Mine.png?raw=true';
 let allLocations = new Array(fieldSize); 
 
 ////////////////////////////////MINES////////////////////////////////////////////
@@ -82,8 +83,13 @@ function setMineLocation(){
   }
   console.log("mineLocation[]: ");
   console.log(mineLocation);
-  console.log("allLocations[]: ");
-  console.log(allLocations);
+}
+
+function isAMine(location){
+  if(allLocations[location] >= 1000){
+    return true;
+  }
+  return false;
 }
 
 /////////////////////////////////NUMBERS AROUND MINES/////////////////////////
@@ -182,12 +188,20 @@ function setNumbers(){
   });
 }
 
+function isANumber(location){
+  if(allLocations[location] > 0 && allLocations[location] < 10){
+   return true;
+  }
+  return false;
+}
+
 
 /////////////////////////////////Empty Spaces/////////////////////////////////
-function setEmptyTiles(){
-  allLocations.forEach(element => {
-   
-  });
+function isEmpty(location){
+  if(allLocations[location] == 0){
+    return true;
+  }
+  return false;
 }
 
 /////////////////////////////////FLAGS//////////////////////////////////////// do later
@@ -228,8 +242,6 @@ function buildMineField(){
  setMineLocation();
  //set numbers
  setNumbers();
- //set empty tiles
- setEmptyTiles();
 
  //build divs
   for (var i = 0; i < fieldSize; i++) {
@@ -239,7 +251,7 @@ function buildMineField(){
     //check tile content
     if(currentLocation >= 1000){
       type = "tiles tiles_mine";
-      content = "<img src='https://github.com/sstikel/CIT261/blob/master/minesweeper/img/Mine.png?raw=true' alt='mine'/>";
+      //content = "<img src='https://github.com/sstikel/CIT261/blob/master/minesweeper/img/Mine.png?raw=true' alt='mine'/>";
     }
     else if(1 == currentLocation){
       type = "tiles tiles_number number number--1";
@@ -269,7 +281,7 @@ function buildMineField(){
       type = "tiles tiles_empty"
     }
     //insert minefield tiles
-    mineField.innerHTML += `<div class="tiles ${type}" id='${i}' hidden>${currentLocation} ${content}</div>`;//"<div id=" + i + "></div>";
+    mineField.innerHTML += `<div class="tiles ${type}" id='${i}' hidden> ${content}</div>`;//"<div id=" + i + "></div>";
   }
 
 }
@@ -280,7 +292,52 @@ function eraseOnScreenNumbers(){
   document.getElementsByClassName("tiles").innerHTML = '';
 }
 ////////////////////////////////GAME PLAY///////////////////////////////////
+//listener//
+function playGame(event){
+  console.log(event);
+  
+  let location = event.target.id;
+  console.log(event.target.id);
 
+  //clicks empty cell - reveals all empty, touching cells and the numbered cells around them
+  if(isEmpty(location)){
+    //TODO
+    // let moreEmpty = true;
+    // while(moreEmpty)
+    // moreEmpty = false;
+    // //revealBlockAroundEmpty();
+    // if
+  }
+  //clicks numbered cell - reveals numbered cell
+  else if(isANumber(location)){
+    let docElement =  document.getElementById(location);
+    docElement.innerHTML = allLocations[location];
+    docElement.className += " tiles_number--clicked"; 
+  }
+
+  //clicks mine - reveals mine in red and all other mines normal, game loss
+  else if(isAMine(location)){
+    //clicks mine on first move... - swap position of mine and reveal number or empty
+    let docElement = document.getElementById(location);
+    //view mines
+    mineLocation.forEach(element => {
+      document.getElementById(element).className += " tiles_mine--show";
+      //TODO - should set up as a promise
+      document.getElementById(element).innerHTML = `<img src= ${mineImage} alt="mine" />`;
+    });
+    //clicked mine in red
+    docElement.className += " tiles_mine--clicked";
+    
+    //TODO - end game
+    
+  }
+
+  //clicks smiley - game reset
+
+  //clicks flag
+
+}
+document.addEventListener("touchend", playGame);
 
 ////Items to include////
 //empty tile clicked, reveal all connected empty tiles

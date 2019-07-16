@@ -43,7 +43,7 @@ body{
   border:1px solid black;
 
   &_empty{
-    color: transparent;
+    //color: transparent;
 
     &--clicked{
       background-color: $color_tile_clicked;
@@ -56,16 +56,17 @@ body{
     //color: transparent;
 
     img{
-      display: none;
+      display: inline;
+      //display: none;
       //visibility: hidden;
-    }
-
-    &--clicked{
-      background-color: $color_tile_clicked_mine;
     }
 
     &--show{
       background-color: $color_tile_clicked;
+    }
+
+    &--clicked{
+      background-color: $color_tile_clicked_mine;
     }
   }
 
