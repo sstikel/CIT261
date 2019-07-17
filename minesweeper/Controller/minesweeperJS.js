@@ -41,7 +41,7 @@ let fieldSize = fieldSizeFactor * fieldSizeFactor;
 let mineCount = fieldSizeFactor;
 let mineLocation = [];
 let mineImage = 'https://github.com/sstikel/CIT261/blob/master/minesweeper/img/Mine.png?raw=true';
-let allLocations = new Array(fieldSize); 
+var allLocations = new Array(fieldSize); 
 
 ////////////////////////////////MINES////////////////////////////////////////////
 /*
@@ -196,13 +196,161 @@ function isANumber(location){
 }
 
 
-/////////////////////////////////Empty Spaces/////////////////////////////////
+/////////////////////////////////Empty Cells/////////////////////////////////
 function isEmpty(location){
   if(allLocations[location] == 0){
     return true;
   }
   return false;
 }
+
+function revealBlockAroundEmpty(location){
+  let centerCell = location;
+  let docInfo;
+
+  //spot right above empty cell
+  let aboveEmptyCell = centerCell - fieldSizeFactor;
+  //spot right below empty cell
+  let belowEmptyCell = centerCell + fieldSizeFactor;
+   
+  //using recursion
+  /*
+  *line above
+  */
+ 
+  if(aboveEmptyCell >= 0){
+    //check for empty - reveal, recursive
+    // if(isEmpty(aboveEmptyCell)){
+    
+    //   docInfo = document.getElementById(aboveEmptyCell);
+
+    //   try{
+    //       if(!(docInfo.classList.contains("tiles_empty--clicked"))){
+    //         docInfo.className += " tiles_empty--clicked";
+    //       }
+    //       revealBlockAroundEmpty(aboveEmptyCell);
+    //     }
+    //     catch{}
+    // }
+    // //check for number - reveal
+    // else if(isANumber(aboveEmptyCell)){
+    //   if(!(docInfo.classList.contains("tiles_number--clicked")))
+    //     docInfo.innerHTML = allLocations[aboveEmptyCell];
+    //     docInfo.className += " tiles_number--clicked"; 
+    // }
+  }
+
+    ////Left////
+    //check for leftmost position 
+    if(!((aboveEmptyCell - 1) % fieldSizeFactor == (fieldSizeFactor - 1))){ 
+      //check for empty - reveal, recursive
+    //   if(isEmpty(aboveEmptyCell - 1)){
+    
+    //   docInfo = document.getElementById(aboveEmptyCell - 1);
+
+    //   try{
+    //       if(!(docInfo.classList.contains("tiles_empty--clicked"))){
+    //         docInfo.className += " tiles_empty--clicked";
+    //       }
+    //       revealBlockAroundEmpty(aboveEmptyCell - 1);
+    //     }
+    //     catch{}
+    // }
+    // //check for number - reveal
+    // else if(isANumber(aboveEmptyCell - 1)){
+    //   if(!(docInfo.classList.contains("tiles_number--clicked")))
+    //     docInfo.innerHTML = allLocations[aboveEmptyCell - 1];
+    //     docInfo.className += " tiles_number--clicked"; 
+    // }
+     }
+    
+
+
+    ////Right////
+    //check for rightmost position
+    if(!((aboveEmptyCell + 1) % fieldSizeFactor == 0)){
+    
+    //   docInfo = document.getElementById(aboveEmptyCell + 1);
+
+    //   try{
+    //       if(!(docInfo.classList.contains("tiles_empty--clicked"))){
+    //         docInfo.className += " tiles_empty--clicked";
+    //       }
+    //       revealBlockAroundEmpty(aboveEmptyCell + 1);
+    //     }
+    //     catch{}
+    // }
+    // //check for number - reveal
+    // else if(isANumber(aboveEmptyCell + 1)){
+    //   if(!(docInfo.classList.contains("tiles_number--clicked")))
+    //     docInfo.innerHTML = allLocations[aboveEmptyCell + 1];
+    //     docInfo.className += " tiles_number--clicked"; 
+    }
+    
+
+  /*
+  *SAME LINE
+  */
+
+  ////LEFT//// -- works
+  //check for position 0 - no position left of 0
+  if(centerCell != 0){
+    //check for left most position - no wrapping
+
+    if((centerCell - 1) % fieldSizeFactor != (fieldSizeFactor - 1)){
+      if(isEmpty(centerCell - 1)){
+      docInfo = document.getElementById(centerCell - 1);
+
+      try{
+          if(!(docInfo.classList.contains("tiles_empty--clicked"))){
+            docInfo.className += " tiles_empty--clicked";
+          }
+          revealBlockAroundEmpty(centerCell - 1);
+        }
+        catch{}
+      }
+      //check for number - reveal
+      else if(isANumber(centerCell - 1)){
+        if(!(docInfo.classList.contains("tiles_number--clicked")))
+          docInfo.innerHTML = allLocations[centerCell - 1];
+          docInfo.className += " tiles_number--clicked"; 
+      }
+    }
+  }
+  
+  ////CENTER//// -- works
+   //reveal empty - reveal, recursive
+  docInfo = document.getElementById(centerCell);
+
+  try{
+      if(!(docInfo.classList.contains("tiles_empty--clicked"))){
+        docInfo.className += " tiles_empty--clicked";
+      }
+    }
+    catch{}
+
+  ////RIGHT////
+  //within field
+  if(centerCell <= fieldSize - 1){
+    //no wrap
+    if((centerCell + 1) % fieldSizeFactor != (fieldSizeFactor - 1)){
+      //is empty?
+      // if(isEmpty(centerCell + 1)){
+      
+      //   if(!(docInfo.classList.contains("tiles_empty--clicked"))){
+      //     docInfo.className += " tiles_empty--clicked";
+      //   }
+      //   revealBlockAroundEmpty(centerCell + 1);
+      // }
+      
+      // //number
+      // else if(isANumber(centerCell + 1)){
+      //   //TODO
+      // } //TODO - breaks when I uncomment
+    }
+  }
+
+} //end revealBlockAroundCell()
 
 /////////////////////////////////FLAGS//////////////////////////////////////// do later
 
@@ -302,11 +450,7 @@ function playGame(event){
   //clicks empty cell - reveals all empty, touching cells and the numbered cells around them
   if(isEmpty(location)){
     //TODO
-    // let moreEmpty = true;
-    // while(moreEmpty)
-    // moreEmpty = false;
-    // //revealBlockAroundEmpty();
-    // if
+    revealBlockAroundEmpty(location);
   }
   //clicks numbered cell - reveals numbered cell
   else if(isANumber(location)){
@@ -314,7 +458,6 @@ function playGame(event){
     docElement.innerHTML = allLocations[location];
     docElement.className += " tiles_number--clicked"; 
   }
-
   //clicks mine - reveals mine in red and all other mines normal, game loss
   else if(isAMine(location)){
     //clicks mine on first move... - swap position of mine and reveal number or empty
