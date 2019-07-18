@@ -3,8 +3,10 @@ $color_tile: gray;
 $color_tile_clicked: lightgray;
 $color_tile_clicked_mine: red;
 $color_tile_testing_mine: hotpink;
+$color_heading_red: darkred;
 
 
+/////body////
 body{
   margin: 20px;
 }
@@ -26,9 +28,20 @@ body{
   
 }
 
+.timerBox{
+ // background-color: $color_heading_red;
+}
+
+.buttonSmiley{
+  //background-color: $color_tile_clicked;
+}
+
+.mineCountBox{
+  //background-color: $color_heading_red;
+}
+
+
 .mineField{
-  // width: 100%;
-  // height: 40%;
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
@@ -43,7 +56,7 @@ body{
   border:1px solid black;
 
   &_empty{
-    //color: transparent;
+    
 
     &--clicked{
       background-color: $color_tile_clicked;
@@ -52,13 +65,10 @@ body{
 
   &_mine{
     background-color: $color_tile_testing_mine; //TODO - $color_tile;
-    //TODO - hide text
-    //color: transparent;
+    
 
     img{
       display: inline;
-      //display: none;
-      //visibility: hidden;
     }
 
     &--show{
@@ -72,17 +82,15 @@ body{
 
   &_flag{
     background-color: $color_tile;
-    //TODO - hide text
-    //color: transparent;
+   
   }
 
   &_number{
-    //TODO - hide text
-    //color: transparent;
+
 
     &--clicked{
       background-color: $color_tile_clicked;
-      //TODO - show text
+      
     }    
   }    
 }
@@ -139,8 +147,6 @@ body{
   }
   
   .mineField{
-    // width: 100%;
-    // height: 40%;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
