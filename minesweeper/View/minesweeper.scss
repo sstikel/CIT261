@@ -18,28 +18,8 @@ body{
   border:1px solid;
   display: grid;
   grid-gap: 1px;
-  //grid-template-columns: 2;
   grid-template-rows: 5%, 95%; 
 }
-
-.headingBar{
-  display: grid;
-  grid-template-columns: 3;
-  
-}
-
-.timerBox{
- // background-color: $color_heading_red;
-}
-
-.buttonSmiley{
-  //background-color: $color_tile_clicked;
-}
-
-.mineCountBox{
-  //background-color: $color_heading_red;
-}
-
 
 .mineField{
   display: grid;
@@ -64,7 +44,10 @@ body{
   }
 
   &_mine{
-    background-color: $color_tile_testing_mine; //TODO - $color_tile;
+    // background-color:  $color_tile;
+
+    //For testing - to more easily see mines
+    background-color: $color_tile_testing_mine; 
     
 
     img{

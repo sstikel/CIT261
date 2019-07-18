@@ -69,17 +69,6 @@ function setMineLocation(){
     else{
       i--;
     }
-    // for(var j = 0; j < mineLocation.length; j++) {
-    //   //if duplicate found, rerun
-    //   if (mineLocation[j] == num){
-    //     i--;
-    //     break;
-    //   }
-    // }
-    // mineLocation.push(num);
-    // //console.log(mineLocation[i]);
-    // allLocations[num] = "m";
-    
   }
   console.log("mineLocation[]: ");
   console.log(mineLocation);
@@ -116,7 +105,7 @@ function setNumbers(){
    
 
     /*
-    *line above - works
+    *line above
     */
    //check for top line
    if(aboveMine >= 0){
@@ -140,7 +129,7 @@ function setNumbers(){
    }
 
     /*
-    *same line - works
+    *same line
     */
    ////left////
    //check for position 0 - no position left of 0
@@ -163,7 +152,7 @@ function setNumbers(){
    }
 
     /*
-    *line below - works
+    *line below
     */
    //check for bottom line
    if(belowMine >= (fieldSizeFactor - 1)){
@@ -188,6 +177,7 @@ function setNumbers(){
   });
 }
 
+//check if location is a number
 function isANumber(location){
   if(allLocations[location] > 0 && allLocations[location] < 10){
    return true;
@@ -197,6 +187,7 @@ function isANumber(location){
 
 
 /////////////////////////////////Empty Cells/////////////////////////////////
+//check is location is empty
 function isEmpty(location){
   if(allLocations[location] == 0){
     return true;
@@ -204,6 +195,7 @@ function isEmpty(location){
   return false;
 }
 
+//show cells around location - recursive
 function revealBlockAroundEmpty(location){
   let centerCell = location;
   let docInfo;
@@ -218,74 +210,18 @@ function revealBlockAroundEmpty(location){
   *line above
   */
  
-  if(aboveEmptyCell >= 0){
-    //check for empty - reveal, recursive
-    // if(isEmpty(aboveEmptyCell)){
-    
-    //   docInfo = document.getElementById(aboveEmptyCell);
-
-    //   try{
-    //       if(!(docInfo.classList.contains("tiles_empty--clicked"))){
-    //         docInfo.className += " tiles_empty--clicked";
-    //       }
-    //       revealBlockAroundEmpty(aboveEmptyCell);
-    //     }
-    //     catch{}
-    // }
-    // //check for number - reveal
-    // else if(isANumber(aboveEmptyCell)){
-    //   if(!(docInfo.classList.contains("tiles_number--clicked")))
-    //     docInfo.innerHTML = allLocations[aboveEmptyCell];
-    //     docInfo.className += " tiles_number--clicked"; 
-    // }
-  }
+  //Above cell
+  if(aboveEmptyCell >= 0){  }
 
     ////Left////
     //check for leftmost position 
-    if(!((aboveEmptyCell - 1) % fieldSizeFactor == (fieldSizeFactor - 1))){ 
-      //check for empty - reveal, recursive
-      if(isEmpty(aboveEmptyCell - 1)){
-    
-      docInfo = document.getElementById(aboveEmptyCell - 1);
-
-      try{
-          if(!(docInfo.classList.contains("tiles_empty--clicked"))){
-            docInfo.className += " tiles_empty--clicked";
-          }
-          revealBlockAroundEmpty(aboveEmptyCell - 1);
-        }
-        catch{}
-      }
-      //check for number - reveal
-      else if(isANumber(aboveEmptyCell - 1)){
-        if(!(docInfo.classList.contains("tiles_number--clicked")))
-          docInfo.innerHTML = allLocations[aboveEmptyCell - 1];
-          docInfo.className += " tiles_number--clicked"; 
-      }
-    }
+    if(!((aboveEmptyCell - 1) % fieldSizeFactor == (fieldSizeFactor - 1))){   }
     
 
 
     ////Right////
     //check for rightmost position
-    if(!((aboveEmptyCell + 1) % fieldSizeFactor == 0)){
-    
-    //   docInfo = document.getElementById(aboveEmptyCell + 1);
-
-    //   try{
-    //       if(!(docInfo.classList.contains("tiles_empty--clicked"))){
-    //         docInfo.className += " tiles_empty--clicked";
-    //       }
-    //       revealBlockAroundEmpty(aboveEmptyCell + 1);
-    //     }
-    //     catch{}
-    // }
-    // //check for number - reveal
-    // else if(isANumber(aboveEmptyCell + 1)){
-    //   if(!(docInfo.classList.contains("tiles_number--clicked")))
-    //     docInfo.innerHTML = allLocations[aboveEmptyCell + 1];
-    //     docInfo.className += " tiles_number--clicked"; 
-    }
+    if(!((aboveEmptyCell + 1) % fieldSizeFactor == 0)){    }
     
 
   /*
@@ -297,60 +233,41 @@ function revealBlockAroundEmpty(location){
   if(centerCell != 0){
     //check for left most position - no wrapping
     if((centerCell - 1) % fieldSizeFactor != (fieldSizeFactor - 1)){
-      if(isEmpty(centerCell - 1)){
       docInfo = document.getElementById(centerCell - 1);
-
-      revealBlockAroundEmpty(centerCell - 1);
-      try{
-          if(!(docInfo.classList.contains("tiles_empty--clicked"))){
-            docInfo.className += " tiles_empty--clicked";
-          }
-          
-        // }
-        // catch{}
+      if(isEmpty(centerCell - 1)){
+        revealBlockAroundEmpty(centerCell - 1);     
+      }
       
       //check for number - reveal
-      
       else if(isANumber(centerCell - 1)){
-        if(!(docInfo.classList.contains("tiles_number--clicked")))
-          docInfo.innerHTML = allLocations[centerCell - 1];
-          docInfo.className += " tiles_number--clicked"; 
+        docInfo.innerHTML = allLocations[centerCell - 1];
+        docInfo.className += " tiles_number--clicked"; 
       }
-      }
-      catch{}
     }
-  }
 }
   
   ////CENTER////
-   //reveal empty - reveal, recursive
+   //reveal empty - reveal
   docInfo = document.getElementById(centerCell);
+  docInfo.className += " tiles_empty--clicked";
 
-  try{
-      if(!(docInfo.classList.contains("tiles_empty--clicked"))){
-        docInfo.className += " tiles_empty--clicked";
-      }
-    }
-    catch{}
 
   ////RIGHT////
-  //within field
-  if(centerCell <= fieldSize - 1){
+  //right cell within mine field
+  if(centerCell + 1 <= fieldSize){
     //no wrap
     if((centerCell + 1) % fieldSizeFactor != (fieldSizeFactor - 1)){
+      docInfo = document.getElementById(centerCell + 1);
       //is empty?
       if(isEmpty(centerCell + 1)){
-      
-      //   if(!(docInfo.classList.contains("tiles_empty--clicked"))){
-      //     docInfo.className += " tiles_empty--clicked";
-      //   }
-      //   revealBlockAroundEmpty(centerCell + 1);
+        revealBlockAroundEmpty(centerCell + 1);     
       }
       
-      // //number
-      // else if(isANumber(centerCell + 1)){
-      //   //TODO
-      // } //TODO - breaks when I uncomment
+      //number
+      else if(isANumber(centerCell + 1)){
+        docInfo.innerHTML = allLocations[centerCell - 1];
+        docInfo.className += " tiles_number--clicked"; 
+      }
     }
   }
 
@@ -363,7 +280,6 @@ function createSmileyButton(headingBar){}//handle with CSS??
 
 function resetBoard(){}
 
-//smiley animation to be handled in CSS
 
 ////////////////////////////////TIMER///////////////////////////////////////// do later
 function createTimerBox(headingBar){}//handle with CSS??
@@ -390,8 +306,10 @@ createCounterBox(headingBar);
 //build grid
 function buildMineField(){
   let mineField = document.getElementById("mineField"); 
+
  //set mines
  setMineLocation();
+
  //set numbers
  setNumbers();
 
@@ -403,7 +321,6 @@ function buildMineField(){
     //check tile content
     if(currentLocation >= 1000){
       type = "tiles tiles_mine";
-      //content = "<img src='https://github.com/sstikel/CIT261/blob/master/minesweeper/img/Mine.png?raw=true' alt='mine'/>";
     }
     else if(1 == currentLocation){
       type = "tiles tiles_number number number--1";
@@ -433,7 +350,7 @@ function buildMineField(){
       type = "tiles tiles_empty"
     }
     //insert minefield tiles
-    mineField.innerHTML += `<div class="${type}" id='${i}'> ${content}</div>`;//"<div id=" + i + "></div>";
+    mineField.innerHTML += `<div class="${type}" id='${i}'> ${content}</div>`;
   }
 
 }
@@ -469,9 +386,8 @@ function playGame(event){
     let docElement = document.getElementById(location);
     //view mines
     mineLocation.forEach(element => {
-      document.getElementById(element).className += " tiles_mine--show";
-      //TODO - should set up as a promise
       document.getElementById(element).innerHTML = `<img src= ${mineImage} alt="mine" />`;
+      document.getElementById(element).className += " tiles_mine--show";
     });
     //clicked mine in red
     docElement.className += " tiles_mine--clicked";
