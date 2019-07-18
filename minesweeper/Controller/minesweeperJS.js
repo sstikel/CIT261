@@ -244,25 +244,25 @@ function revealBlockAroundEmpty(location){
     //check for leftmost position 
     if(!((aboveEmptyCell - 1) % fieldSizeFactor == (fieldSizeFactor - 1))){ 
       //check for empty - reveal, recursive
-    //   if(isEmpty(aboveEmptyCell - 1)){
+      if(isEmpty(aboveEmptyCell - 1)){
     
-    //   docInfo = document.getElementById(aboveEmptyCell - 1);
+      docInfo = document.getElementById(aboveEmptyCell - 1);
 
-    //   try{
-    //       if(!(docInfo.classList.contains("tiles_empty--clicked"))){
-    //         docInfo.className += " tiles_empty--clicked";
-    //       }
-    //       revealBlockAroundEmpty(aboveEmptyCell - 1);
-    //     }
-    //     catch{}
-    // }
-    // //check for number - reveal
-    // else if(isANumber(aboveEmptyCell - 1)){
-    //   if(!(docInfo.classList.contains("tiles_number--clicked")))
-    //     docInfo.innerHTML = allLocations[aboveEmptyCell - 1];
-    //     docInfo.className += " tiles_number--clicked"; 
-    // }
-     }
+      try{
+          if(!(docInfo.classList.contains("tiles_empty--clicked"))){
+            docInfo.className += " tiles_empty--clicked";
+          }
+          revealBlockAroundEmpty(aboveEmptyCell - 1);
+        }
+        catch{}
+      }
+      //check for number - reveal
+      else if(isANumber(aboveEmptyCell - 1)){
+        if(!(docInfo.classList.contains("tiles_number--clicked")))
+          docInfo.innerHTML = allLocations[aboveEmptyCell - 1];
+          docInfo.className += " tiles_number--clicked"; 
+      }
+    }
     
 
 
@@ -292,33 +292,37 @@ function revealBlockAroundEmpty(location){
   *SAME LINE
   */
 
-  ////LEFT//// -- works
+  ////LEFT////
   //check for position 0 - no position left of 0
   if(centerCell != 0){
     //check for left most position - no wrapping
-
     if((centerCell - 1) % fieldSizeFactor != (fieldSizeFactor - 1)){
       if(isEmpty(centerCell - 1)){
       docInfo = document.getElementById(centerCell - 1);
 
+      revealBlockAroundEmpty(centerCell - 1);
       try{
           if(!(docInfo.classList.contains("tiles_empty--clicked"))){
             docInfo.className += " tiles_empty--clicked";
           }
-          revealBlockAroundEmpty(centerCell - 1);
-        }
-        catch{}
-      }
+          
+        // }
+        // catch{}
+      
       //check for number - reveal
+      
       else if(isANumber(centerCell - 1)){
         if(!(docInfo.classList.contains("tiles_number--clicked")))
           docInfo.innerHTML = allLocations[centerCell - 1];
           docInfo.className += " tiles_number--clicked"; 
       }
+      }
+      catch{}
     }
   }
+}
   
-  ////CENTER//// -- works
+  ////CENTER////
    //reveal empty - reveal, recursive
   docInfo = document.getElementById(centerCell);
 
@@ -335,13 +339,13 @@ function revealBlockAroundEmpty(location){
     //no wrap
     if((centerCell + 1) % fieldSizeFactor != (fieldSizeFactor - 1)){
       //is empty?
-      // if(isEmpty(centerCell + 1)){
+      if(isEmpty(centerCell + 1)){
       
       //   if(!(docInfo.classList.contains("tiles_empty--clicked"))){
       //     docInfo.className += " tiles_empty--clicked";
       //   }
       //   revealBlockAroundEmpty(centerCell + 1);
-      // }
+      }
       
       // //number
       // else if(isANumber(centerCell + 1)){
@@ -429,7 +433,7 @@ function buildMineField(){
       type = "tiles tiles_empty"
     }
     //insert minefield tiles
-    mineField.innerHTML += `<div class="tiles ${type}" id='${i}' hidden> ${content}</div>`;//"<div id=" + i + "></div>";
+    mineField.innerHTML += `<div class="${type}" id='${i}'> ${content}</div>`;//"<div id=" + i + "></div>";
   }
 
 }
@@ -449,15 +453,16 @@ function playGame(event){
 
   //clicks empty cell - reveals all empty, touching cells and the numbered cells around them
   if(isEmpty(location)){
-    //TODO
     revealBlockAroundEmpty(location);
   }
+
   //clicks numbered cell - reveals numbered cell
   else if(isANumber(location)){
     let docElement =  document.getElementById(location);
     docElement.innerHTML = allLocations[location];
     docElement.className += " tiles_number--clicked"; 
   }
+  
   //clicks mine - reveals mine in red and all other mines normal, game loss
   else if(isAMine(location)){
     //clicks mine on first move... - swap position of mine and reveal number or empty
